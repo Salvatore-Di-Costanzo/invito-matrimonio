@@ -8,8 +8,7 @@
     body {
       margin: 0;
       font-family: 'Georgia', serif;
-      /* Ho aggiornato qui l'URL dell'immagine */
-      background: url('http://googleusercontent.com/image_generation_content/2') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1613053276766-d25e80b8eaa9?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-align: center;
@@ -62,6 +61,21 @@
     .btn:hover {
       background-color: #ffffff;
     }
+
+    .hidden {
+      display: none;
+    }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1em;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -70,10 +84,65 @@
     <p>Presto diremo Sì!</p>
     <div class="date">27 Maggio 2027</div>
 
-    <a class="btn" href="https://forms.gle/tuo-link-google-form" target="_blank">Conferma la tua presenza</a>
-    <a class="btn" href="https://maps.app.goo.gl/qLiNAfDkXSrz1rK26" target="_blank">📍 Posizione Parcheggio Chiesa</a>
-    <a class="btn" href="https://maps.app.goo.gl/nK3nHBcdfuFGxopt5" target="_blank">📍 Posizione Chiesa</a>
-    <a class="btn" href="https://maps.app.goo.gl/tMTA4wPJYMefb9TKA" target="_blank">🍽️ Posizione Ristorante</a>
+    <button class="btn" onclick="toggleConfirmForm()">Conferma la tua presenza</button>
+
+    <div id="confirmForm" class="hidden">
+      <div class="form-group">
+        <p>Parteciperai?</p>
+        <button class="btn" onclick="showGuests(true)">Sì</button>
+        <button class="btn" onclick="submitResponse('no')">No</button>
+      </div>
+
+      <div id="guestsForm" class="hidden">
+        <div class="form-group">
+          <label for="adulti">Numero di Adulti:</label>
+          <select id="adulti">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bambini">Numero di Bambini:</label>
+          <select id="bambini">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <button class="btn" onclick="submitResponse('yes')">Invia</button>
+      </div>
+    </div>
+
+    <a class="btn" href="https://maps.google.com/?q=nome+chiesa+indirizzo" target="_blank">📍 Posizione Chiesa</a>
+    <a class="btn" href="https://maps.google.com/?q=nome+ristorante+indirizzo" target="_blank">🍽️ Posizione Ristorante</a>
   </div>
+
+  <script>
+    function toggleConfirmForm() {
+      const form = document.getElementById('confirmForm');
+      form.classList.toggle('hidden');
+    }
+
+    function showGuests(isYes) {
+      if (isYes) {
+        document.getElementById('guestsForm').classList.remove('hidden');
+      }
+    }
+
+    function submitResponse(status) {
+      if (status === 'yes') {
+        const adulti = document.getElementById('adulti').value;
+        const bambini = document.getElementById('bambini').value;
+        alert(`Grazie! Hai confermato la tua presenza con ${adulti} adulto/i e ${bambini} bambino/i.`);
+      } else {
+        alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
+      }
+      document.getElementById('confirmForm').classList.add('hidden');
+      document.getElementById('guestsForm').classList.add('hidden');
+    }
+  </script>
 </body>
 </html>
