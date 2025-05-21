@@ -2,17 +2,16 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Save the Date</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+  <title>Salvatore & Carmen - Save the Date</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: url('sfondo.jpg') no-repeat center center fixed;
+      font-family: 'Georgia', serif;
+      background: url('https://images.unsplash.com/photo-1613053276766-d25e80b8eaa9?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Open Sans', sans-serif;
-      color: #fff;
+      color: white;
+      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -20,37 +19,59 @@
     }
 
     .overlay {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 40px 60px;
+      background-color: rgba(0, 0, 50, 0.6);
+      padding: 30px 20px;
       border-radius: 20px;
-      text-align: center;
-      max-width: 90%;
+      max-width: 600px;
+      width: 90%;
     }
 
     h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3.5rem;
+      font-size: 3em;
       margin-bottom: 0.2em;
     }
 
     p {
-      font-size: 1.2rem;
-      margin: 0.5em 0;
+      font-size: 1.2em;
+      margin: 10px 0;
     }
 
     .date {
-      font-size: 2rem;
+      font-size: 1.5em;
       font-weight: bold;
-      margin-top: 1em;
+      margin: 20px 0;
+    }
+
+    .btn {
+      display: block;
+      margin: 15px auto;
+      padding: 12px 24px;
+      font-size: 1em;
+      background-color: #ffffffaa;
+      color: #003366;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      width: 80%;
+      max-width: 300px;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ffffff;
     }
   </style>
 </head>
 <body>
   <div class="overlay">
-    <h1>Savatore & Carmen</h1>
-    <p>Con amore e gioia vi annunciamo il nostro matrimonio</p>
-    <p class="date">27 Maggio 2027</p>
-    <p>Save the Date 💌</p>
+    <h1>Salvatore & Carmen</h1>
+    <p>Presto diremo Sì!</p>
+    <div class="date">27 Maggio 2027</div>
+
+    <a class="btn" href="https://forms.gle/tuo-link-google-form" target="_blank">Conferma la tua presenza</a>
+    <a class="btn" href="https://maps.google.com/?q=nome+chiesa+indirizzo" target="_blank">📍 Posizione Chiesa</a>
+    <a class="btn" href="https://maps.google.com/?q=nome+ristorante+indirizzo" target="_blank">🍽️ Posizione Ristorante</a>
   </div>
 </body>
 </html>
