@@ -5,25 +5,50 @@
   <title>Salvatore & Carmen - Save the Date</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Georgia', serif;
       background: url('https://images.unsplash.com/photo-1613053276766-d25e80b8eaa9?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
       background-size: cover;
       color: white;
-      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
     }
 
+    .card {
+      width: 90%;
+      max-width: 600px;
+      perspective: 1000px;
+    }
+
+    .inner {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+    }
+
+    .flipped {
+      transform: rotateY(180deg);
+    }
+
     .overlay {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
       background-color: rgba(0, 0, 50, 0.6);
       padding: 30px 20px;
       border-radius: 20px;
-      max-width: 600px;
-      width: 90%;
+      text-align: center;
+    }
+
+    .back {
+      transform: rotateY(180deg);
     }
 
     h1 {
@@ -62,10 +87,6 @@
       background-color: #ffffff;
     }
 
-    .hidden {
-      display: none;
-    }
-
     .form-group {
       margin: 10px 0;
     }
@@ -76,60 +97,78 @@
       font-size: 1em;
       border: none;
     }
+
+    .back-link {
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h1>Salvatore & Carmen</h1>
-    <p>Presto diremo Sì!</p>
-    <div class="date">27 Maggio 2027</div>
+  <div class="card">
+    <div id="cardInner" class="inner">
+      <!-- FRONT -->
+      <div class="overlay front">
+        <h1>Salvatore & Carmen</h1>
+        <p>Presto diremo Sì!</p>
+        <div class="date">27 Maggio 2027</div>
 
-    <button class="btn" onclick="toggleConfirmForm()">Conferma la tua presenza</button>
-
-    <div id="confirmForm" class="hidden">
-      <div class="form-group">
-        <p>Parteciperai?</p>
-        <button class="btn" onclick="showGuests(true)">Sì</button>
-        <button class="btn" onclick="submitResponse('no')">No</button>
+        <button class="btn" onclick="flipCard()">Conferma la tua presenza</button>
+        <a class="btn" href="https://maps.google.com/?q=nome+chiesa+indirizzo" target="_blank">📍 Posizione Chiesa</a>
+        <a class="btn" href="https://maps.google.com/?q=nome+ristorante+indirizzo" target="_blank">🍽️ Posizione Ristorante</a>
       </div>
 
-      <div id="guestsForm" class="hidden">
+      <!-- BACK -->
+      <div class="overlay back">
         <div class="form-group">
-          <label for="adulti">Numero di Adulti:</label>
-          <select id="adulti">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
+          <p>Parteciperai?</p>
+          <button class="btn" onclick="showGuests(true)">Sì</button>
+          <button class="btn" onclick="submitResponse('no')">No</button>
         </div>
-        <div class="form-group">
-          <label for="bambini">Numero di Bambini:</label>
-          <select id="bambini">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
+
+        <div id="guestsForm" style="display: none;">
+          <div class="form-group">
+            <label for="adulti">Numero di Adulti:</label>
+            <select id="adulti">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bambini">Numero di Bambini:</label>
+            <select id="bambini">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <button class="btn" onclick="submitResponse('yes')">Invia</button>
         </div>
-        <button class="btn" onclick="submitResponse('yes')">Invia</button>
+
+        <span class="back-link" onclick="flipBack()">🔙 Torna all'invito</span>
       </div>
     </div>
-
-    <a class="btn" href="https://maps.google.com/?q=nome+chiesa+indirizzo" target="_blank">📍 Posizione Chiesa</a>
-    <a class="btn" href="https://maps.google.com/?q=nome+ristorante+indirizzo" target="_blank">🍽️ Posizione Ristorante</a>
   </div>
 
   <script>
-    function toggleConfirmForm() {
-      const form = document.getElementById('confirmForm');
-      form.classList.toggle('hidden');
+    const cardInner = document.getElementById('cardInner');
+
+    function flipCard() {
+      cardInner.classList.add('flipped');
     }
 
-    function showGuests(isYes) {
-      if (isYes) {
-        document.getElementById('guestsForm').classList.remove('hidden');
-      }
+    function flipBack() {
+      cardInner.classList.remove('flipped');
+    }
+
+    function showGuests() {
+      document.getElementById('guestsForm').style.display = 'block';
     }
 
     function submitResponse(status) {
@@ -140,8 +179,7 @@
       } else {
         alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
       }
-      document.getElementById('confirmForm').classList.add('hidden');
-      document.getElementById('guestsForm').classList.add('hidden');
+      flipBack();
     }
   </script>
 </body>
