@@ -132,12 +132,6 @@
       <!-- BACK -->
       <div class="overlay back">
         <div class="form-group">
-          <p>Parteciperai?</p>
-          <button class="btn" id="btnSi" onclick="handleYes()">Sì</button>
-          <button class="btn" id="btnNo" onclick="handleNo()">No</button>
-        </div>
-
-        <div class="form-group">
           <label for="famiglia">Famiglia:</label>
           <select id="famiglia">
             <option value="" disabled selected>Seleziona famiglia</option>
@@ -147,7 +141,11 @@
             <option value="Neri">Neri</option>
           </select>
         </div>
-
+        <div class="form-group">
+          <p>Parteciperai?</p>
+          <button class="btn" id="btnSi" onclick="handleYes()">Sì</button>
+          <button class="btn" id="btnNo" onclick="handleNo()">No</button>
+        </div>
         <div id="guestsForm" style="display: none;">
           <div class="form-group">
             <label for="adulti">Numero di Adulti:</label>
