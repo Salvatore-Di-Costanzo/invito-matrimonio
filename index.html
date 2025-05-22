@@ -1,119 +1,271 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Invito Salvatore e Carmen</title>
+  <meta charset="UTF-8">
+  <title>Salvatore & Carmen - Save the Date</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0') no-repeat center center fixed;
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('https://png.pngtree.com/background/20250104/original/pngtree-floral-delight-exquisite-texture-wedding-invitation-picture-image_15306345.jpg') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      color: #003366;
-      padding: 2rem;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-top: 2rem;
-      color: #005d7a;
-    }
-    form {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 2rem;
-      border-radius: 16px;
-      display: inline-block;
-      margin-top: 2rem;
-      width: 100%;
-      max-width: 400px;
-    }
-    input, select, button {
-      display: block;
-      width: 100%;
-      margin: 1rem 0;
-      padding: 0.7rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .success {
-      color: green;
-      font-weight: bold;
-    }
-    .error {
-      color: red;
-      font-weight: bold;
-    }
-    .link-button {
-      margin-top: 1rem;
-      padding: 0.7rem;
-      font-size: 1rem;
-      background-color: #0077b6;
       color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20vh;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 600px;
+      perspective: 1000px;
+    }
+
+    .inner {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+    }
+
+    .flipped {
+      transform: rotateY(180deg);
+    }
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      background-color: rgba(65,136,255,0.4);
+      padding: 30px 20px;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.2em;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .date {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .btn {
+      display: block;
+      margin: 15px auto;
+      padding: 12px 24px;
+      font-size: 1em;
+      background-color: #ffffffaa;
+      color: #003366;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
       text-decoration: none;
-      border-radius: 8px;
-      display: inline-block;
+      width: 80%;
+      max-width: 300px;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ffffff;
+    }
+
+    .btn.selected {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1em;
+      border: none;
+    }
+
+    .back-link {
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <h1>Presto diremo Sì!</h1>
+  <div class="card">
+    <div id="cardInner" class="inner">
+      <!-- FRONT -->
+      <div class="overlay front">
+        <h1>Salvatore & Carmen</h1>
+        <p>Presto diremo Sì!</p>
+        <div class="date">27 Maggio 2027</div>
 
-  <form id="rsvpForm">
-    <input type="text" name="nome" placeholder="Nome famiglia" required />
-    <select name="partecipa" required>
-      <option value="">Parteciperete?</option>
-      <option value="sì">Sì</option>
-      <option value="no">No</option>
-    </select>
-    <input type="number" name="adulti" placeholder="Numero adulti" min="0" required />
-    <input type="number" name="bambini" placeholder="Numero bambini" min="0" required />
-    <button type="submit">Conferma Presenza</button>
-  </form>
+        <button class="btn" onclick="flipCard()">Conferma la tua presenza</button>
+        <a class="btn" href="https://maps.app.goo.gl/r82ZAmYemSUFh6wj9" target="_blank">🅿️ Parcheggio Chiesa</a>
+        <a class="btn" href="https://maps.app.goo.gl/7HaJgXN99KaKBMM47" target="_blank">⛪ Chiesa</a>
+        <a class="btn" href="https://maps.app.goo.gl/WBLJcn88iKcANaMj7" target="_blank">🍽️ Ristorante</a>
+      </div>
 
-  <div id="status"></div>
+      <!-- BACK -->
+      <div class="overlay back">
+        <div class="form-group">
+          <p>Parteciperai?</p>
+          <button class="btn" id="btnSi" onclick="handleYes()">Sì</button>
+          <button class="btn" id="btnNo" onclick="handleNo()">No</button>
+        </div>
 
-  <div style="margin-top: 2rem;">
-    <a href="https://maps.app.goo.gl/n2tWKHk5RvmKVi9r9" target="_blank" class="link-button">📍 Posizione Chiesa</a>
-    <a href="https://maps.app.goo.gl/ctY1YYpJqYfZ97Hf7" target="_blank" class="link-button">🍽️ Posizione Ristorante</a>
+        <div class="form-group">
+          <label for="famiglia">Famiglia:</label>
+          <select id="famiglia">
+            <option value="" disabled selected>Seleziona famiglia</option>
+            <option value="Rossi">Rossi</option>
+            <option value="Bianchi">Bianchi</option>
+            <option value="Verdi">Verdi</option>
+            <option value="Neri">Neri</option>
+          </select>
+        </div>
+
+        <div id="guestsForm" style="display: none;">
+          <div class="form-group">
+            <label for="adulti">Numero di Adulti:</label>
+            <select id="adulti">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bambini">Numero di Bambini:</label>
+            <select id="bambini">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <button class="btn" onclick="submitResponse('yes')">Invia</button>
+        </div>
+
+        <span class="back-link" onclick="flipBack()">🔙 Torna all'invito</span>
+      </div>
+    </div>
   </div>
 
   <script>
-    const form = document.getElementById("rsvpForm");
-    const status = document.getElementById("status");
+    const cardInner = document.getElementById('cardInner');
+    const btnSi = document.getElementById('btnSi');
+    const btnNo = document.getElementById('btnNo');
+    const guestsForm = document.getElementById('guestsForm');
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    function flipCard() {
+      cardInner.classList.add('flipped');
+    }
 
-      const data = {
-        nome: form.nome.value,
-        partecipa: form.partecipa.value,
-        adulti: form.adulti.value,
-        bambini: form.bambini.value
-      };
+    function flipBack() {
+      cardInner.classList.remove('flipped');
+      guestsForm.style.display = 'none';
+      btnSi.classList.remove('selected');
+      btnNo.classList.remove('selected');
+    }
 
-      try {
-        const response = await fetch("COLLA-QUI-IL-TUO-URL-WEBAPP", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ contents: data })
-        });
+    function handleYes() {
+      guestsForm.style.display = 'block';
+      btnSi.classList.add('selected');
+      btnNo.classList.remove('selected');
+    }
 
-        const result = await response.json();
-        if (result.status === "success") {
-          status.textContent = "Risposta registrata con successo!";
-          status.className = "success";
-          form.reset();
-        } else {
-          throw new Error("Errore interno");
-        }
-      } catch (error) {
-        status.textContent = "Errore nell'invio. Riprova.";
-        status.className = "error";
+    function handleNo() {
+      guestsForm.style.display = 'none';
+      btnNo.classList.add('selected');
+      btnSi.classList.remove('selected');
+      submitResponse('no');
+    }
+
+    function submitResponse(status) {
+  const famiglia = document.getElementById('famiglia').value;
+
+  if (!famiglia) {
+    alert("Per favore seleziona la famiglia.");
+    return;
+  }
+
+  if (status === 'yes') {
+    const adulti = document.getElementById('adulti').value;
+    const bambini = document.getElementById('bambini').value;
+
+    // Chiamata API Google Apps Script
+    fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        famiglia: famiglia,
+        partecipa: 'Sì',
+        adulti: adulti,
+        bambini: bambini
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert(`Grazie! Hai confermato la tua presenza con ${adulti} adulto/i e ${bambini} bambino/i.`);
+        flipBack();
+      } else {
+        alert("Errore nell'invio, riprova più tardi.");
       }
-    });
+    })
+    .catch(() => alert("Errore di connessione."));
+  } else {
+    // No partecipa
+    fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        famiglia: famiglia,
+        partecipa: 'No',
+        adulti: 0,
+        bambini: 0
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
+        flipBack();
+      } else {
+        alert("Errore nell'invio, riprova più tardi.");
+      }
+    })
+    .catch(() => alert("Errore di connessione."));
+  }
+}
   </script>
 </body>
 </html>
