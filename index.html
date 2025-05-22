@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Salvatore & Carmen - Save the Date</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
@@ -84,7 +84,7 @@
       transition: background-color 0.3s;
     }
 
-    .btn:hover {
+    .btn:hover:not(:disabled) {
       background-color: #ffffff;
     }
 
@@ -92,6 +92,12 @@
       background-color: #003366;
       color: white;
       font-weight: bold;
+    }
+
+    .btn:disabled {
+      background-color: #cccccc88;
+      color: #666666;
+      cursor: not-allowed;
     }
 
     .form-group {
@@ -119,7 +125,7 @@
     <div id="cardInner" class="inner">
       <!-- FRONT -->
       <div class="overlay front">
-        <h1>Salvatore & Carmen</h1>
+        <h1>Salvatore &amp; Carmen</h1>
         <p>Presto diremo Sì!</p>
         <div class="date">27 Maggio 2027</div>
 
@@ -165,7 +171,7 @@
               <option value="3">3</option>
             </select>
           </div>
-          <button class="btn" onclick="submitResponse('yes')">Invia</button>
+          <button class="btn" id="btnInvia" onclick="submitResponse('yes')">Invia</button>
         </div>
 
         <span class="back-link" onclick="flipBack()">🔙 Torna all'invito</span>
@@ -175,12 +181,19 @@
 
   <script>
     const cardInner = document.getElementById('cardInner');
+    const famigliaSelect = document.getElementById('famiglia');
     const btnSi = document.getElementById('btnSi');
     const btnNo = document.getElementById('btnNo');
     const guestsForm = document.getElementById('guestsForm');
+    const btnInvia = document.getElementById('btnInvia');
 
     function flipCard() {
       cardInner.classList.add('flipped');
+      // Reset selections when flipping
+      btnSi.classList.remove('selected');
+      btnNo.classList.remove('selected');
+      guestsForm.style.display = 'none';
+      updateButtonsState();
     }
 
     function flipBack() {
@@ -188,82 +201,110 @@
       guestsForm.style.display = 'none';
       btnSi.classList.remove('selected');
       btnNo.classList.remove('selected');
+      updateButtonsState();
     }
+
+    // Aggiorna lo stato dei pulsanti in base alla famiglia selezionata
+    function updateButtonsState() {
+      const famigliaSelezionata = famigliaSelect.value !== "";
+
+      btnSi.disabled = !famigliaSelezionata;
+      btnNo.disabled = !famigliaSelezionata;
+
+      if (guestsForm.style.display === 'block') {
+        btnInvia.disabled = !famigliaSelezionata;
+      } else {
+        btnInvia.disabled = true;
+      }
+    }
+
+    famigliaSelect.addEventListener('change', () => {
+      updateButtonsState();
+      // Se cambio famiglia mentre form è visibile, mantieni invia disabilitato finché non scelgo
+      if (guestsForm.style.display === 'block' && famigliaSelect.value === "") {
+        btnInvia.disabled = true;
+      }
+    });
 
     function handleYes() {
       guestsForm.style.display = 'block';
       btnSi.classList.add('selected');
       btnNo.classList.remove('selected');
+      updateButtonsState();
     }
 
     function handleNo() {
       guestsForm.style.display = 'none';
       btnNo.classList.add('selected');
       btnSi.classList.remove('selected');
+      updateButtonsState();
       submitResponse('no');
     }
 
     function submitResponse(status) {
-  const famiglia = document.getElementById('famiglia').value;
+      const famiglia = famigliaSelect.value;
 
-  if (!famiglia) {
-    alert("Per favore seleziona la famiglia.");
-    return;
-  }
-
-  if (status === 'yes') {
-    const adulti = document.getElementById('adulti').value;
-    const bambini = document.getElementById('bambini').value;
-
-    // Chiamata API Google Apps Script
-    fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        famiglia: famiglia,
-        partecipa: 'Sì',
-        adulti: adulti,
-        bambini: bambini
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert(`Grazie! Hai confermato la tua presenza con ${adulti} adulto/i e ${bambini} bambino/i.`);
-        flipBack();
-      } else {
-        alert("Errore nell'invio, riprova più tardi.");
+      if (!famiglia) {
+        alert("Per favore seleziona la famiglia.");
+        return;
       }
-    })
-    .catch(() => alert("Errore di connessione."));
-  } else {
-    // No partecipa
-    fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        famiglia: famiglia,
-        partecipa: 'No',
-        adulti: 0,
-        bambini: 0
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
-        flipBack();
+
+      if (status === 'yes') {
+        const adulti = document.getElementById('adulti').value;
+        const bambini = document.getElementById('bambini').value;
+
+        // Chiamata API Google Apps Script
+        fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            famiglia: famiglia,
+            partecipa: 'Sì',
+            adulti: adulti,
+            bambini: bambini
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(`Grazie! Hai confermato la tua presenza con ${adulti} adulto/i e ${bambini} bambino/i.`);
+            flipBack();
+          } else {
+            alert("Errore nell'invio, riprova più tardi.");
+          }
+        })
+        .catch(() => alert("Errore di connessione."));
       } else {
-        alert("Errore nell'invio, riprova più tardi.");
+        // No partecipa
+        fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            famiglia: famiglia,
+            partecipa: 'No',
+            adulti: 0,
+            bambini: 0
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
+            flipBack();
+          } else {
+            alert("Errore nell'invio, riprova più tardi.");
+          }
+        })
+        .catch(() => alert("Errore di connessione."));
       }
-    })
-    .catch(() => alert("Errore di connessione."));
-  }
-}
+    }
+
+    // Disabilito pulsanti inizialmente appena carica pagina
+    updateButtonsState();
   </script>
 </body>
 </html>
