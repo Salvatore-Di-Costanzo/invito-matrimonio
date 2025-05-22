@@ -8,6 +8,7 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: 'Georgia', serif;
@@ -17,7 +18,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 20vh;
+      height: 100vh;
     }
 
     .card {
@@ -87,6 +88,12 @@
       background-color: #ffffff;
     }
 
+    .btn.selected {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+    }
+
     .form-group {
       margin: 10px 0;
     }
@@ -117,7 +124,7 @@
         <div class="date">27 Maggio 2027</div>
 
         <button class="btn" onclick="flipCard()">Conferma la tua presenza</button>
-        <a class="btn" href="https://maps.app.goo.gl/r82ZAmYemSUFh6wj9" target="_blank">🅿️ Posizione Parcheggio Chiesa</a>
+        <a class="btn" href="https://maps.app.goo.gl/r82ZAmYemSUFh6wj9" target="_blank">🅿️ Posizione Parcheggio</a>
         <a class="btn" href="https://maps.app.goo.gl/7HaJgXN99KaKBMM47" target="_blank">⛪ Posizione Chiesa</a>
         <a class="btn" href="https://maps.app.goo.gl/WBLJcn88iKcANaMj7" target="_blank">🍽️ Posizione Ristorante</a>
       </div>
@@ -126,8 +133,8 @@
       <div class="overlay back">
         <div class="form-group">
           <p>Parteciperai?</p>
-          <button class="btn" onclick="showGuests(true)">Sì</button>
-          <button class="btn" onclick="submitResponse('no')">No</button>
+          <button class="btn" id="btnSi" onclick="handleYes()">Sì</button>
+          <button class="btn" id="btnNo" onclick="handleNo()">No</button>
         </div>
 
         <div id="guestsForm" style="display: none;">
@@ -159,6 +166,9 @@
 
   <script>
     const cardInner = document.getElementById('cardInner');
+    const btnSi = document.getElementById('btnSi');
+    const btnNo = document.getElementById('btnNo');
+    const guestsForm = document.getElementById('guestsForm');
 
     function flipCard() {
       cardInner.classList.add('flipped');
@@ -166,10 +176,22 @@
 
     function flipBack() {
       cardInner.classList.remove('flipped');
+      guestsForm.style.display = 'none';
+      btnSi.classList.remove('selected');
+      btnNo.classList.remove('selected');
     }
 
-    function showGuests() {
-      document.getElementById('guestsForm').style.display = 'block';
+    function handleYes() {
+      guestsForm.style.display = 'block';
+      btnSi.classList.add('selected');
+      btnNo.classList.remove('selected');
+    }
+
+    function handleNo() {
+      guestsForm.style.display = 'none';
+      btnNo.classList.add('selected');
+      btnSi.classList.remove('selected');
+      submitResponse('no');
     }
 
     function submitResponse(status) {
