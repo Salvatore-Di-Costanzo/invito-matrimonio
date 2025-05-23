@@ -182,7 +182,7 @@
       width: 88%;
       max-width: 300px;
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
+      position: absolute;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(255,107,157,0.4);
       font-family: 'Inter', sans-serif;
@@ -477,11 +477,6 @@
       btnSi.classList.add('selected');
       btnNo.classList.remove('selected');
       updateButtonsState();
-      
-      // Smooth scroll to form
-      setTimeout(() => {
-        guestsForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 300);
     }
 
     function handleNo() {
