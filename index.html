@@ -97,7 +97,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      position: absolute;
       overflow-y: auto;
     }
 
@@ -438,6 +437,8 @@
       // Reset selections when flipping
       btnSi.classList.remove('selected');
       btnNo.classList.remove('selected');
+      btnSi.disabled = false;
+      btnNo.disabled = false;
       guestsForm.style.display = 'none';
       updateButtonsState();
     }
@@ -447,6 +448,8 @@
       guestsForm.style.display = 'none';
       btnSi.classList.remove('selected');
       btnNo.classList.remove('selected');
+      btnSi.disabled = false;
+      btnNo.disabled = false;
       updateButtonsState();
     }
 
@@ -476,6 +479,8 @@
       guestsForm.style.display = 'block';
       btnSi.classList.add('selected');
       btnNo.classList.remove('selected');
+      btnNo.disabled = true;
+      btnSi.disabled = false;
       updateButtonsState();
     }
 
@@ -483,6 +488,8 @@
       guestsForm.style.display = 'none';
       btnNo.classList.add('selected');
       btnSi.classList.remove('selected');
+      btnSi.disabled = true;
+      btnNo.disabled = false;
       updateButtonsState();
       submitResponse('no');
     }
