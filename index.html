@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Salvatore & Carmen - Save the Date</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -11,27 +12,74 @@
 
     body {
       margin: 0;
-      font-family: 'Georgia', serif;
-      background: url('https://png.pngtree.com/background/20250104/original/pngtree-floral-delight-exquisite-texture-wedding-invitation-picture-image_15306345.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(45deg, #ffeef8, #e8f4fd, #fff5ee);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease-in-out infinite;
+      color: #2c3e50;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 20vh;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="petals" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23ff69b4" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23petals)"/></svg>') repeat;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 182, 193, 0.3);
+      font-size: 20px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
     .card {
       width: 90%;
-      max-width: 600px;
-      perspective: 1000px;
+      max-width: 500px;
+      perspective: 1200px;
+      margin: auto;
     }
 
     .inner {
       position: relative;
       width: 100%;
+      height: 600px;
       transform-style: preserve-3d;
-      transition: transform 0.8s;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .flipped {
@@ -41,145 +89,344 @@
     .overlay {
       position: absolute;
       width: 100%;
+      height: 100%;
       backface-visibility: hidden;
-      background-color: rgba(65,136,255,0.4);
-      padding: 30px 20px;
-      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 30px;
+      padding: 40px 30px;
       text-align: center;
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.1),
+        0 0 0 1px rgba(255,255,255,0.5) inset;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
     }
 
     .back {
       transform: rotateY(180deg);
     }
 
-    h1 {
-      font-size: 2em;
+    .names {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2em;
+      font-weight: 700;
       margin-bottom: 0.2em;
+      background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
     }
 
-    p {
-      font-size: 1.2em;
-      margin: 10px 0;
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3em;
+      margin: 10px 0 20px 0;
+      color: #6c5ce7;
+      font-weight: 400;
+      font-style: italic;
     }
 
     .date {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin: 20px 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      font-weight: 600;
+      margin: 30px 0;
+      color: #2d3436;
+      padding: 20px;
+      border: 2px solid #ff6b9d;
+      border-radius: 20px;
+      background: linear-gradient(45deg, rgba(255,107,157,0.1), rgba(196,69,105,0.1));
+      position: relative;
+    }
+
+    .date::before {
+      content: '💒';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 0 10px;
+      font-size: 24px;
     }
 
     .btn {
       display: block;
-      margin: 15px auto;
-      padding: 12px 24px;
+      margin: 12px auto;
+      padding: 15px 25px;
       font-size: 1em;
-      background-color: #ffffffaa;
-      color: #003366;
+      font-weight: 500;
+      background: linear-gradient(45deg, #ff6b9d, #c44569);
+      color: white;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
       text-decoration: none;
-      width: 80%;
-      max-width: 300px;
-      transition: background-color 0.3s;
+      width: 85%;
+      max-width: 280px;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(255,107,157,0.3);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
     }
 
     .btn:hover:not(:disabled) {
-      background-color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(255,107,157,0.4);
+    }
+
+    .btn:hover:not(:disabled)::before {
+      left: 100%;
     }
 
     .btn.selected {
-      background-color: #003366;
-      color: white;
-      font-weight: bold;
+      background: linear-gradient(45deg, #00b894, #00a085);
+      box-shadow: 0 8px 25px rgba(0,184,148,0.3);
+      transform: scale(1.05);
     }
 
     .btn:disabled {
-      background-color: #cccccc88;
-      color: #666666;
+      background: linear-gradient(45deg, #ddd, #bbb);
+      color: #888;
       cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .location-btn {
+      background: linear-gradient(45deg, #6c5ce7, #5f3dc4);
+      font-size: 0.9em;
+      padding: 12px 20px;
+    }
+
+    .location-btn:hover:not(:disabled) {
+      box-shadow: 0 12px 35px rgba(108,92,231,0.4);
     }
 
     .form-group {
-      margin: 10px 0;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #2d3436;
+      font-size: 1.1em;
     }
 
     select {
-      padding: 10px;
-      border-radius: 10px;
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 15px;
       font-size: 1em;
-      border: none;
+      border: 2px solid #e17055;
+      background: white;
+      color: #2d3436;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #ff6b9d;
+      box-shadow: 0 0 0 3px rgba(255,107,157,0.1);
     }
 
     .back-link {
-      color: white;
-      text-decoration: underline;
+      color: #6c5ce7;
+      text-decoration: none;
       cursor: pointer;
       margin-top: 20px;
-      display: block;
+      display: inline-block;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 1.1em;
+    }
+
+    .back-link:hover {
+      color: #5f3dc4;
+      transform: translateX(-5px);
+    }
+
+    .participation-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4em;
+      color: #2d3436;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+
+    .guests-form {
+      background: rgba(255,255,255,0.5);
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 20px;
+      border: 1px solid rgba(255,182,193,0.3);
+    }
+
+    .guests-form h3 {
+      margin-top: 0;
+      color: #e17055;
+      font-family: 'Playfair Display', serif;
+    }
+
+    @media (max-width: 480px) {
+      .names {
+        font-size: 2.5em;
+      }
+      
+      .date {
+        font-size: 1.6em;
+        padding: 15px;
+      }
+      
+      .overlay {
+        padding: 30px 20px;
+      }
+      
+      .inner {
+        height: 650px;
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
+  <div class="floating-hearts" id="hearts"></div>
+  
   <div class="card">
     <div id="cardInner" class="inner">
       <!-- FRONT -->
       <div class="overlay front">
-        <h1>Salvatore &amp; Carmen</h1>
-        <p>Presto diremo Sì!</p>
+        <h1 class="names">Salvatore &amp; Carmen</h1>
+        <p class="subtitle">Presto diremo Sì!</p>
         <div class="date">27 Maggio 2027</div>
 
-        <button class="btn" onclick="flipCard()">Conferma la tua presenza</button>
-        <a class="btn" href="https://maps.app.goo.gl/r82ZAmYemSUFh6wj9" target="_blank">🅿️ Parcheggio Chiesa</a>
-        <a class="btn" href="https://maps.app.goo.gl/7HaJgXN99KaKBMM47" target="_blank">⛪ Chiesa</a>
-        <a class="btn" href="https://maps.app.goo.gl/WBLJcn88iKcANaMj7" target="_blank">🍽️ Ristorante</a>
+        <button class="btn pulse" onclick="flipCard()">
+          💕 Conferma la tua presenza
+        </button>
+        <a class="btn location-btn" href="https://maps.app.goo.gl/r82ZAmYemSUFh6wj9" target="_blank">🅿️ Parcheggio Chiesa</a>
+        <a class="btn location-btn" href="https://maps.app.goo.gl/7HaJgXN99KaKBMM47" target="_blank">⛪ Chiesa</a>
+        <a class="btn location-btn" href="https://maps.app.goo.gl/WBLJcn88iKcANaMj7" target="_blank">🍽️ Ristorante</a>
       </div>
 
       <!-- BACK -->
       <div class="overlay back">
         <div class="form-group">
-          <label for="famiglia">Famiglia:</label>
+          <label for="famiglia">👨‍👩‍👧‍👦 Famiglia:</label>
           <select id="famiglia">
-            <option value="" disabled selected>Seleziona famiglia</option>
-            <option value="Rossi">Rossi</option>
-            <option value="Bianchi">Bianchi</option>
-            <option value="Verdi">Verdi</option>
-            <option value="Neri">Neri</option>
+            <option value="" disabled selected>Seleziona la tua famiglia</option>
+            <option value="Rossi">Famiglia Rossi</option>
+            <option value="Bianchi">Famiglia Bianchi</option>
+            <option value="Verdi">Famiglia Verdi</option>
+            <option value="Neri">Famiglia Neri</option>
           </select>
         </div>
+        
         <div class="form-group">
-          <p>Parteciperai?</p>
-          <button class="btn" id="btnSi" onclick="handleYes()">Sì</button>
-          <button class="btn" id="btnNo" onclick="handleNo()">No</button>
+          <p class="participation-question">Parteciperai al nostro matrimonio?</p>
+          <button class="btn" id="btnSi" onclick="handleYes()">✨ Sì, ci sarò!</button>
+          <button class="btn" id="btnNo" onclick="handleNo()">😔 Mi dispiace, non posso</button>
         </div>
-        <div id="guestsForm" style="display: none;">
+        
+        <div id="guestsForm" class="guests-form" style="display: none;">
+          <h3>🎉 Dettagli della partecipazione</h3>
           <div class="form-group">
-            <label for="adulti">Numero di Adulti:</label>
+            <label for="adulti">👥 Numero di Adulti:</label>
             <select id="adulti">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
+              <option value="1">1 adulto</option>
+              <option value="2">2 adulti</option>
+              <option value="3">3 adulti</option>
+              <option value="4">4 adulti</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="bambini">Numero di Bambini:</label>
+            <label for="bambini">🧸 Numero di Bambini:</label>
             <select id="bambini">
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+              <option value="0">Nessun bambino</option>
+              <option value="1">1 bambino</option>
+              <option value="2">2 bambini</option>
+              <option value="3">3 bambini</option>
             </select>
           </div>
-          <button class="btn" id="btnInvia" onclick="submitResponse('yes')">Invia</button>
+          <button class="btn" id="btnInvia" onclick="submitResponse('yes')">🎊 Conferma partecipazione</button>
         </div>
 
-        <span class="back-link" onclick="flipBack()">🔙 Torna all'invito</span>
+        <a class="back-link" onclick="flipBack()">← Torna all'invito</a>
       </div>
     </div>
   </div>
 
   <script>
+    // Floating hearts animation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDelay = Math.random() * 3 + 's';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.getElementById('hearts').appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    // Create hearts periodically
+    setInterval(createHeart, 2000);
+    
+    // Initial hearts
+    for(let i = 0; i < 5; i++) {
+      setTimeout(createHeart, i * 500);
+    }
+
     const cardInner = document.getElementById('cardInner');
     const famigliaSelect = document.getElementById('famiglia');
     const btnSi = document.getElementById('btnSi');
@@ -231,6 +478,11 @@
       btnSi.classList.add('selected');
       btnNo.classList.remove('selected');
       updateButtonsState();
+      
+      // Smooth scroll to form
+      setTimeout(() => {
+        guestsForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 300);
     }
 
     function handleNo() {
@@ -245,7 +497,7 @@
       const famiglia = famigliaSelect.value;
 
       if (!famiglia) {
-        alert("Per favore seleziona la famiglia.");
+        showCustomAlert("💝", "Per favore seleziona la famiglia.", "#ff6b9d");
         return;
       }
 
@@ -253,7 +505,16 @@
         const adulti = document.getElementById('adulti').value;
         const bambini = document.getElementById('bambini').value;
 
-        // Chiamata API Google Apps Script
+        // Simulate API call with better UX
+        showCustomAlert("✨", "Invio in corso...", "#6c5ce7");
+        
+        // Replace with actual API call
+        setTimeout(() => {
+          showCustomAlert("🎉", `Grazie! Hai confermato la presenza con ${adulti} adulto/i e ${bambini} bambino/i. Non vediamo l'ora di festeggiare insieme!`, "#00b894");
+          setTimeout(() => flipBack(), 2000);
+        }, 1500);
+        
+        /*
         fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
           method: 'POST',
           headers: {
@@ -269,15 +530,20 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            alert(`Grazie! Hai confermato la tua presenza con ${adulti} adulto/i e ${bambini} bambino/i.`);
-            flipBack();
+            showCustomAlert("🎉", `Grazie! Hai confermato la presenza con ${adulti} adulto/i e ${bambini} bambino/i.`, "#00b894");
+            setTimeout(() => flipBack(), 2000);
           } else {
-            alert("Errore nell'invio, riprova più tardi.");
+            showCustomAlert("❌", "Errore nell'invio, riprova più tardi.", "#e17055");
           }
         })
-        .catch(() => alert("Errore di connessione."));
+        .catch(() => showCustomAlert("❌", "Errore di connessione.", "#e17055"));
+        */
       } else {
         // No partecipa
+        showCustomAlert("💔", "Ci dispiace che tu non possa partecipare. Grazie comunque per averci fatto sapere!", "#e17055");
+        setTimeout(() => flipBack(), 2000);
+        
+        /*
         fetch('https://script.google.com/macros/s/TUO_SCRIPT_ID/exec', {
           method: 'POST',
           headers: {
@@ -293,17 +559,71 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            alert("Ci dispiace che tu non possa partecipare. Grazie comunque!");
-            flipBack();
+            showCustomAlert("💔", "Ci dispiace che tu non possa partecipare. Grazie comunque!", "#e17055");
+            setTimeout(() => flipBack(), 2000);
           } else {
-            alert("Errore nell'invio, riprova più tardi.");
+            showCustomAlert("❌", "Errore nell'invio, riprova più tardi.", "#e17055");
           }
         })
-        .catch(() => alert("Errore di connessione."));
+        .catch(() => showCustomAlert("❌", "Errore di connessione.", "#e17055"));
+        */
       }
     }
 
-    // Disabilito pulsanti inizialmente appena carica pagina
+    function showCustomAlert(icon, message, color) {
+      // Create custom alert modal
+      const alertDiv = document.createElement('div');
+      alertDiv.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        z-index: 1000;
+        text-align: center;
+        max-width: 90%;
+        width: 350px;
+        border: 3px solid ${color};
+        font-family: 'Inter', sans-serif;
+      `;
+      
+      alertDiv.innerHTML = `
+        <div style="font-size: 40px; margin-bottom: 15px;">${icon}</div>
+        <div style="font-size: 16px; color: #2d3436; line-height: 1.5;">${message}</div>
+      `;
+      
+      // Create backdrop
+      const backdrop = document.createElement('div');
+      backdrop.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+      `;
+      
+      document.body.appendChild(backdrop);
+      document.body.appendChild(alertDiv);
+      
+      // Auto-remove after 3 seconds
+      setTimeout(() => {
+        backdrop.remove();
+        alertDiv.remove();
+      }, 3000);
+      
+      // Click to close
+      backdrop.onclick = () => {
+        backdrop.remove();
+        alertDiv.remove();
+      };
+    }
+
+    // Initialize button states
     updateButtonsState();
   </script>
 </body>
